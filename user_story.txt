@@ -1,0 +1,12 @@
+M. goes to flack.heroku.com and sees the page where she is asked to type her name, the url is - "flack.heroku.com/signin"
+Once she types her name and submits she is redirected to "flack.heroku.com/"
+She sees header, the header has big text "Flack - Slack clone" and to the right link o logout
+she is in general chat, as she entered the channel, the message has come to all  "M joined the .. channel"
+she sees list of users in the left side which are currently in the channel
+below the list of users there is list of channels and button to add channel
+
+in the center of page she sees box of messages
+in the bottom of messages box there is a textarea to type message and to send
+
+
+# write the 
