@@ -1,0 +1,36 @@
+.chat-block {
+    margin-top: 1.5rem;
+    height: 100%;
+    width: 100%;
+}
+
+.controls-block {
+    margin-top: 2rem;
+    padding: 5px;
+}
+
+.texting-form {
+    width: 100%;
+}
+
+.message-div {
+    width: 60%;
+    background-color: cornflowerblue;
+    text-align: left;
+    padding: 5px;
+    margin: 5px 5px 0px 5px;
+}
+
+.this-user {
+    text-align: right;
+}
+
+.send-button {
+    margin-top:  0.5rem;
+}
+
+#messageBox{
+    height: 35rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
