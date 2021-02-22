@@ -1,21 +1,46 @@
-from flask import render_template, session
+from functools import wraps
+from flask import render_template, session, request
 from flask.helpers import url_for
 from werkzeug.utils import redirect
 from flack import app
 
-def login_required(f, *args, **kwargs):
-    def wrapper():
+users = set()
+def login_required(f):
+    @wraps(f)
+    def wrapper(*args, **kwargs):
         if not session.get('USERNAME'):
             return redirect(url_for('login'))
-        f(*args, **kwargs)
+        else:
+            return f(*args, **kwargs)
     return wrapper
 
-
 @app.route('/')
+@login_required
 def home():
-    return render_template("home.html")
+    username = session.get("USERNAME", 'world')
+    return render_template("home.html", username=username)
 
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template("login.html", title='Login')
+    error = ""
+    if session.get('USERNAME'):
+        return redirect(url_for('home'))
+    
+    if request.method == 'POST':
+        name = request.form.get('name')
+        if name in users:
+            error = "Such username already exists, please pick another"
+        else:
+            users.add(name)
+            session['USERNAME'] = name
+            return redirect(url_for('home'))
+    return render_template("signin.html", title='Login', error=error)
+
+
+@app.route('/logout')
+@login_required
+def logout():
+    users.remove(session['USERNAME'])
+    del session['USERNAME']
+    return redirect(url_for('login'))
