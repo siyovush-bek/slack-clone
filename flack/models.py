@@ -13,13 +13,16 @@ class Channel:
         return f'{self.name} ({len(self.members)} members)'
 
     def add_member(self, member):
-        self.members.append(member)
+        if member not in self.members:
+            self.members.append(member)
+            return True
     
     def add_message(self, msg):
         self.messages.append(msg)
     
     def remove_member(self, member):
-        self.members.remove(member)
+        if member not in self.members:
+            self.members.remove(member)
     
     def toJSON(self):
         return json.dumps(self, default=lambda o: o.__dict__, 
@@ -36,6 +39,9 @@ class Message:
         return json.dumps(self, default=lambda o: o.__dict__, 
             sort_keys=True, indent=4)
     
+    def __str__(self):
+        return self.content
+
     @staticmethod
     def from_json(json_object):
         if(isinstance(json_object, str)):

@@ -1,4 +1,5 @@
 from functools import wraps
+from datetime import datetime
 from flask import render_template, session, request
 from flask.helpers import url_for
 from werkzeug.utils import redirect
@@ -29,11 +30,21 @@ def home():
 
 
 # socket stuff
+@socketio.on('user connect')
+def user_connect(data):
+    new_member = data['user']
+    if channel.add_member(new_member):
+        emit('user connect', {'message': f'{new_member} joined the channel'}, broadcast=True)
+
 @socketio.on("send message")
 def send_message(data):
-    msg = data["content"]
+    now = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
+    msg = data['content']
+    sender = data['sender']
     if msg and not msg.isspace():
-        emit("recieve message", {"content": msg, 'sender': session['USERNAME']}, broadcast=True)
+        message = Message(msg, now, sender)
+        channel.add_message(message)
+        emit("recieve message", {"content": msg, 'sender': sender }, broadcast=True)
 
 # @socketio.on('connect')
 # def user_connected(data):
@@ -61,6 +72,7 @@ def login():
 @app.route('/logout')
 @login_required
 def logout():
-    users.remove(session['USERNAME'])
-    del session['USERNAME']
+    user = session.pop('USERNAME')
+    users.remove(user)
+    channel.remove_member(user)
     return redirect(url_for('login'))
