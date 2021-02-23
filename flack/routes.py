@@ -32,7 +32,12 @@ def home():
 @socketio.on("send message")
 def send_message(data):
     msg = data["content"]
-    emit("recieve message", {"content": msg}, broadcast=True)
+    if msg and not msg.isspace():
+        emit("recieve message", {"content": msg, 'sender': session['USERNAME']}, broadcast=True)
+
+# @socketio.on('connect')
+# def user_connected(data):
+#     emit('user connected', {'msg' : f"{data['user']} connected"})
 
 
 # login logout functions, should be moved to seperate blueprint
