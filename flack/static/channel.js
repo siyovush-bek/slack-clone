@@ -20,6 +20,8 @@ document.addEventListener('DOMContentLoaded', function(event){
         const div = document.createElement('div');
         div.classList.add('text-center');
         div.classList.add('float-left');
+        div.classList.add('mt-5');
+        div.classList.add('mb-5');
         div.innerHTML = data.message;
         console.log(data.message);
         messageBox.append(div);
