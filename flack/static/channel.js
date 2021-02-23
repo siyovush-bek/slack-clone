@@ -53,6 +53,7 @@ function createMessage(data) {
     div.classList.add('rounded');
     if(data.sender === user){
         div.classList.add('float-right');
+        senderDiv.innerHTML = 'You';
     } else {
         div.classList.add('float-left');
     }
