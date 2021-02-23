@@ -2,24 +2,13 @@ from functools import wraps
 from flask import render_template, session, request
 from flask.helpers import url_for
 from werkzeug.utils import redirect
-from flack import app
+from flask_socketio import emit
+from flack import app, socketio
+from flack.models import Channel, Message, users
 
-
-class Channel:
-    def __init__(self, name):
-        self.name = name
-        self.users = []
-        self.messages = []
-    
-    def __repr__(self):
-        return self.name
-    
 
 
 channel = Channel('General')
-channel.messages = ['aaa' for _ in range(20)]
-channels = ['clubhouse', 'semiplanet']
-users = set()
 
 
 def login_required(f):
@@ -36,9 +25,17 @@ def login_required(f):
 @login_required
 def home():
     username = session.get("USERNAME")
-    return render_template("home.html", username=username, channel=channel, channels=channels)
+    return render_template("home.html", username=username, channel=channel)
 
 
+# socket stuff
+@socketio.on("send message")
+def send_message(data):
+    msg = data["content"]
+    emit("recieve message", {"content": msg}, broadcast=True)
+
+
+# login logout functions, should be moved to seperate blueprint
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
