@@ -19,9 +19,7 @@ document.addEventListener('DOMContentLoaded', function(event){
     socket.on('user connect', data => {
         const div = document.createElement('div');
         div.classList.add('text-center');
-        div.classList.add('float-left');
-        div.classList.add('mt-5');
-        div.classList.add('mb-5');
+        div.classList.add('message-user-connected');
         div.innerHTML = data.message;
         console.log(data.message);
         messageBox.append(div);
@@ -30,17 +28,37 @@ document.addEventListener('DOMContentLoaded', function(event){
 
     socket.on('recieve message', data => {
         console.log("Message has come " + data.content);
-        const div = document.createElement('div');
-        div.innerHTML = data.content;
-        div.classList.add('message-div');
-        
-        if(data.sender === user){
-            div.classList.add('float-right');
-        } else {
-            div.classList.add('float-left');
-        }
-        messageBox.append(div);
+        const msg = createMessage(data);
+        messageBox.append(msg);
     });
     
 });
+   
+
+function createMessage(data) {
+    const div = document.createElement('div');
+    const senderDiv = document.createElement('div');
+    const contentDiv = document.createElement('div');
+    const dateDiv = document.createElement('div');
     
+    senderDiv.innerHTML = data.sender;
+    contentDiv.innerHTML = data.content;
+    dateDiv.innerHTML = data.date;
+
+    senderDiv.classList.add('message-sender-name');
+    contentDiv.classList.add('message-content');
+    dateDiv.classList.add('message-date');
+
+    div.classList.add('message-div');
+    div.classList.add('rounded');
+    if(data.sender === user){
+        div.classList.add('float-right');
+    } else {
+        div.classList.add('float-left');
+    }
+    div.appendChild(senderDiv);
+    div.appendChild(contentDiv);
+    div.appendChild(dateDiv);
+
+    return div;
+}

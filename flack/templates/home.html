@@ -18,11 +18,19 @@
         <div class="col-12" id="messageBox">
           {% for message in channel.messages %}
           <!-- float-left if message from another user and
-          float-right if it's from this user -->
+               float-right if it's from this user -->
           {% if message.sender == username %}
-          <div class="message-div float-right">{{ message }}</div>
+          <div class="message-div float-right rounded">
+            <div class="message-sender-name">You</div>
+            <div class="message-content">{{ message }}</div>
+            <div class="message-date">{{ message.date }}</div>
+          </div>
           {% else %}
-          <div class="message-div float-left">{{ message }}</div>
+          <div class="message-div float-left rounded">
+            <div class="message-sender-name">{{ message.sender }}</div>
+            <div class="message-content">{{ message }}</div>
+            <div class="message-date">{{ message.date }}</div>
+          </div>
           {% endif %}
           {% endfor %}
         </div>

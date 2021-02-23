@@ -21,6 +21,11 @@
     margin: 5px 5px 0px 5px;
 }
 
+.message-user-connected {
+    width: 60%;
+    margin: 5px 0px 5px 0px;
+}
+
 .this-user {
     text-align: right;
 }
@@ -31,7 +36,22 @@
 
 #messageBox{
     height: 35rem;
-    width: 100%
+    width: 100%;
     overflow-y: auto;
     overflow-x: hidden;
+}
+
+.message-sender-name {
+    font-size: small;
+    text-decoration: underline;
+}
+
+.message-content {
+    font-size: 17px;
+    margin-top: 1px;
+}
+
+.message-date {
+    font-size: small;
+    text-align: right;
 }

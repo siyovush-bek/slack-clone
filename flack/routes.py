@@ -44,7 +44,7 @@ def send_message(data):
     if msg and not msg.isspace():
         message = Message(msg, now, sender)
         channel.add_message(message)
-        emit("recieve message", {"content": msg, 'sender': sender }, broadcast=True)
+        emit("recieve message", {"content": msg, 'sender': sender, 'date': now }, broadcast=True)
 
 # @socketio.on('connect')
 # def user_connected(data):

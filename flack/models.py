@@ -10,7 +10,7 @@ class Channel:
         self.messages = []
     
     def __repr__(self):
-        return f'{self.name} ({len(self.members)} members)'
+        return f'{self.name}'
 
     def add_member(self, member):
         if member not in self.members:
